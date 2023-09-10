@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,17 +86,58 @@ WSGI_APPLICATION = 'aeronax.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('NAME'),
-        'USER': config('USER'),
-        'PASSWORD': config('PASSWORD'),
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#
+#         'NAME': config('NAME'),
+#         'USER': config('USER'),
+#         'PASSWORD': config('PASSWORD'),
+#         'HOST': config('HOST'),  # Use 'localhost' if your database is on the same machine, otherwise specify the hostname or IP address.
+#         'PORT': '26257',
+#         'OPTIONS': {
+#             'sslmode': 'verify-ca',  # Enable SSL encryption and certificate verification.
+#             'sslrootcert': 'path/to/ca.crt',
+#             # Path to the root certificate file (replace with your actual certificate path).
+#         },
+#         # PostgreSQL default port is 5432.
+#     }
+# }
+# DATABASES = {'default': dj_database_url.config(default=config('DATABASE_URL'), engine='django_cochroachdb')}
 
-        'HOST': 'localhost',  # Use 'localhost' if your database is on the same machine, otherwise specify the hostname or IP address.
-        'PORT': '5432',       # PostgreSQL default port is 5432.
-    }
-}
+
+DATABASES = {'default': dj_database_url.config(default=config('DATABASE_URL'), engine='django_cockroachdb')}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.django_cockroachdb',
+#         'NAME': config('NAME'),
+#         'USER': config('USER'),
+#         'PASSWORD': config('PASSWORD'),
+#         'HOST': config('HOST'),
+#         'PORT': '26257',
+#         'OPTIONS': {
+#             'sslmode': 'disable',  # Disable server certificate verification.
+#         },
+#     }
+# }
+# from django.db.backends.django_cockroachdb import base
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('NAME'),
+#         'USER': config('USER'),
+#         'PASSWORD': config('PASSWORD'),
+#         'HOST': config('HOST'),
+#         'PORT': '26257',
+#         'OPTIONS': {
+#             'sslmode': 'verify-full',  # Use 'verify-full' for full certificate verification.
+#             'sslrootcert': 'C:\\Users\\Lenovo\\AppData\\Roaming\\postgresql\\root.crt'
+#             # Disable server certificate verification.
+#         },
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
